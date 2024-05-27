@@ -4,6 +4,9 @@ module Mastermind
   GUESSER = 'G'
   CREATOR = 'C'
 
+  # Computer algorithm from
+  # https://puzzling.stackexchange.com/questions/546/clever-ways-to-solve-mastermind
+
   class Game
     attr_reader :role, :secret_code, :turns_left, :candidates, :guess
 
@@ -86,7 +89,6 @@ module Mastermind
     def lose
       puts "You have lost! You haven't guessed the secret combination"
     end
-
 
   end
 end
