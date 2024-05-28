@@ -1,8 +1,8 @@
 module Mastermind
   TURNS = 12
-  COLORS = [:R, :O, :Y, :G, :B, :W]
-  GUESSER = 'G'
-  CREATOR = 'C'
+  COLORS = %i[R O Y G B W].freeze
+  GUESSER = 'G'.freeze
+  CREATOR = 'C'.freeze
 
   # Computer algorithm from
   # https://puzzling.stackexchange.com/questions/546/clever-ways-to-solve-mastermind
@@ -14,16 +14,16 @@ module Mastermind
       choose_role
       @turns_left = TURNS
       @candidates = COLORS.repeated_permutation(4).to_a
-      @guess = [:R, :R, :O, :O]
+      @guess = %i[R R O O]
     end
 
     def play
-      while turns_left > 0
+      while turns_left.positive?
         guess = role == GUESSER ? player_guess : @guess
         check_guess(guess)
         @turns_left -= 1 if guess != secret_code
       end
-      lose if turns_left == 0
+      lose if turns_left.zero?
     end
 
     private
@@ -37,22 +37,22 @@ module Mastermind
     end
 
     def choose_role
-      puts "Would you like to be the guesser or the creator? (G or C)"
+      puts 'Would you like to be the guesser or the creator? (G or C)'
       @role = gets.chomp.upcase
-      system "clear"
+      system 'clear'
       role == GUESSER ? guesser_role : creator_role
     end
 
     def guesser_role
-      puts "YOU ARE NOW THE GUESSER!"
+      puts 'YOU ARE NOW THE GUESSER!'
       @secret_code = generate_secret_code
     end
 
     def creator_role
-      puts "YOU ARE NOW THE CREATOR!"
-      print "Please enter the 4 color secret code (R, O, Y, G, B, W): "
-      @secret_code = gets.chomp.delete(' ').upcase.split('').map(&:to_sym)
-      system "clear"
+      puts 'YOU ARE NOW THE CREATOR!'
+      print 'Please enter the 4 color secret code (R, O, Y, G, B, W): '
+      @secret_code = gets.chomp.delete(' ').upcase.chars.map(&:to_sym)
+      system 'clear'
     end
 
     def generate_secret_code
@@ -60,9 +60,9 @@ module Mastermind
     end
 
     def player_guess
-      puts "Enter your guess of the 4 random colors(R, O, Y, G, B, W)."
+      puts 'Enter your guess of the 4 random colors(R, O, Y, G, B, W).'
       puts "You have #{@turns_left} turns left"
-      gets.chomp.delete(' ').upcase().split('').map(&:to_sym)
+      gets.chomp.delete(' ').upcase.chars.map(&:to_sym)
     end
 
     def give_feedback(guess)
@@ -82,14 +82,13 @@ module Mastermind
     end
 
     def win
-      puts "You have won! You have guessed the secret combination"
+      puts 'You have won! You have guessed the secret combination'
       exit
     end
 
     def lose
       puts "You have lost! You haven't guessed the secret combination"
     end
-
   end
 end
 
