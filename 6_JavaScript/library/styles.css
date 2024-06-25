@@ -1,0 +1,14 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0 15px;
+}
+
+table tr td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+}
